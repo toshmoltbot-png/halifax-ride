@@ -187,7 +187,7 @@ a{color:inherit;text-decoration:none}
       <button class="rt-btn on" onclick="setRouteMode('full')">🗺️ Full Day</button>
       <button class="rt-btn" onclick="setRouteMode('quick')">⚡ Highlights</button>
     </div>
-    <div class="banner warn" style="margin:8px 12px 2px">⏱ Afternoon schedule adjusted for current time. Walking + Uber. Terminal by 2:30 PM.</div>
+    <div class="banner warn" style="margin:8px 12px 2px">🌲 More Point Pleasant time! Public Gardens cut. Uber downtown at 1:00. Terminal by 2:30.</div>
     <div id="route-banner"></div>
     <div id="route-list"></div>
     <div class="bonus" id="bonus-section">
@@ -265,10 +265,10 @@ const STOPS = [
   {id:4,time:'10:45',name:'Uber \u2192 Point Pleasant',emoji:'🚗',desc:'MAIN EVENT. 5 min Uber. Explore on foot.',detail:'Too far to walk comfortably. Uber there (~5 min, ~$8-10 CAD). Explore trails, overlooks, old forts, cannons, shoreline views. Challenge: coolest hidden spot wins a vote from everyone.',nav:'https://maps.google.com/?q=Point+Pleasant+Park+Halifax',isMain:true,essential:true},
   {id:5,time:'11:00',name:'Cambridge Battery',emoji:'🏰',desc:'Inside Point Pleasant. Most tourists miss it.',detail:'Good target for the hidden-spot challenge. Short walk from park entrance.',nav:'https://maps.google.com/?q=Cambridge+Battery+Point+Pleasant+Park',sub:true},
   {id:6,time:'11:20',name:'Prince of Wales Tower',emoji:'🗼',desc:'Oldest Martello tower. 5 min, photos.',detail:'One of the oldest Martello towers in North America. Five minutes. Photos. Move.',nav:'https://maps.google.com/?q=Prince+of+Wales+Tower+Halifax',sub:true},
-  {id:7,time:'12:15',name:'Uber \u2192 Public Gardens',emoji:'🚗',desc:'Uber back downtown. Walk the gardens.',detail:'Uber from Point Pleasant back to downtown (~5 min). No bikes to worry about, just walk right in. Biggest-tree challenge.',nav:'https://maps.google.com/?q=Halifax+Public+Gardens',essential:true},
-  {id:8,time:'12:50',name:'Halifax Citadel',emoji:'🏔️',desc:'Walk up the hill. Views are worth it.',detail:'Real climb on foot. Skip if energy is low. The view from the top is the payoff.',nav:'https://maps.google.com/?q=Halifax+Citadel'},
+  {id:7,time:'1:00',name:'Uber \u2192 Downtown',emoji:'🚗',desc:'Uber from Point Pleasant to downtown. Candy time.',detail:'Exit via Tower Rd or Young Ave. Uber to Barrington St area (~5 min, ~$8-10 CAD).',nav:'https://maps.google.com/?q=Barrington+St+Halifax+NS',essential:true},
+  {id:8,time:'1:15',name:'Halifax Citadel',emoji:'🏔️',desc:'Walk up the hill. Views are worth it.',detail:'Real climb on foot. Skip if energy is low. The view from the top is the payoff.',nav:'https://maps.google.com/?q=Halifax+Citadel'},
   {id:9,time:'1:20',name:'Pier 21',emoji:'🏛️',desc:"Canada's Ellis Island. 5 min context stop.",detail:"Walk back down from Citadel toward the waterfront. Five-minute context stop.",nav:'https://maps.google.com/?q=Pier+21+Halifax'},
-  {id:10,time:'1:35',name:'Freak Lunchbox',emoji:'🍭',desc:'Ridiculous candy, weird sodas, novelty snacks.',detail:'Expect this to beat the Citadel by a mile. Downtown, easy walk.',nav:'https://maps.google.com/?q=Freak+Lunchbox+Halifax',essential:true},
+  {id:10,time:'1:30',name:'Freak Lunchbox',emoji:'🍭',desc:'Ridiculous candy, weird sodas, novelty snacks.',detail:'Expect this to beat the Citadel by a mile. Downtown, easy walk.',nav:'https://maps.google.com/?q=Freak+Lunchbox+Halifax',essential:true},
   {id:11,time:'2:00',name:'COWS Ice Cream',emoji:'🍦',desc:'Mandatory. No duplicate flavors.',detail:'Winner of the waterfront challenge gets first pick.',nav:'https://maps.google.com/?q=COWS+Halifax',essential:true},
   {id:12,time:'2:30',name:'Head to Terminal',emoji:'🏁',desc:'Walk or Uber back. Ship deadline 3:30 PM.',detail:'Walk if close, Uber if needed. Hard ship deadline is 3:30 PM. Do not be late.',nav:'https://maps.google.com/?q=Halifax+Cruise+Terminal',essential:true}
 ];
@@ -298,10 +298,10 @@ const DETAILS = {
 <li><strong>Also ask about:</strong> E-scooter rentals, expected return times, any other rental options in the area.</li>
 </ul>
 <div class="rc-tip">💡 Don't wait around if nothing's available. The day is too short to burn time here.</div>`,
-4:`<strong>⏱ 1-1.5 hours in park</strong> · Free park · Uber ~$8-10 CAD each way
+4:`<strong>⏱ Take your time — this is the highlight</strong> · Free park · Uber ~$8-10 CAD each way
 <ul>
 <li><strong>🚗 Uber there:</strong> Request from the waterfront / Lower Water St. ~5 min ride. Ask for drop-off at Point Pleasant Park main entrance (south end of Young Ave).</li>
-<li>75 hectares of coastal forest, military ruins, and ocean views. This is the single best thing in Halifax.</li>
+<li>75 hectares of coastal forest, military ruins, and ocean views. This is the single best thing in Halifax. Soak it in — Public Gardens got cut so you have more time here.</li>
 <li><strong>🦶 Best walk:</strong> Shore Road loop along the water. You'll see massive container ships passing RIGHT by the point, plus views across the Northwest Arm.</li>
 <li><strong>🎯 Challenge:</strong> Coolest hidden spot wins a vote from everyone. Spread out and explore different trails.</li>
 <li><strong>🦭 Wildlife:</strong> Seals in the harbour, bald eagles, great blue herons, ducks with babies — all worth sighting points!</li>
@@ -323,19 +323,16 @@ const DETAILS = {
 <li><strong>🤓 Fun fact:</strong> The British copied this design from a tower in Corsica that gave them serious trouble. Liked it so much they built 200+ of them worldwide.</li>
 <li>Quick photo stop. Five minutes, then head toward the park exit.</li>
 </ul>`,
-7:`<strong>⏱ 30 min</strong> · Free · Uber ~$8-10 CAD from Point Pleasant
+7:`<strong>🚗 Quick Uber ride</strong> · ~$8-10 CAD · 5 min
 <ul>
-<li><strong>🚗 Getting there:</strong> Exit Point Pleasant via Tower Rd or Young Ave. Uber to Spring Garden Rd entrance (~5 min ride).</li>
-<li>16-acre Victorian garden dating to 1867. Fountains, flower beds, duck ponds, and an ornate bandstand.</li>
-<li><strong>🎯 Challenge:</strong> Find the biggest tree. Some are 150+ years old and absolutely massive.</li>
-<li><strong>🚶 Walking advantage:</strong> No bikes to lock up — just walk right in through any gate.</li>
-<li><strong>👀 Look for:</strong> Griffin's Pond fountain, the weeping willows, the Victorian bandstand, tropical flower beds.</li>
-<li><strong>🚻 Bathrooms:</strong> Small restroom building near the Horticultural Hall inside the gardens.</li>
+<li><strong>📍 Pickup:</strong> Exit Point Pleasant via Tower Rd or Young Ave. Request Uber from there — don't try from deep inside the park.</li>
+<li><strong>🎯 Drop-off:</strong> Barrington St area puts you right in downtown Halifax. Freak Lunchbox is a 2 min walk.</li>
+<li>This is just a transit stop — the fun is where you're going next.</li>
 </ul>
-<div class="rc-tip">💡 Don't let this eat the afternoon. It's gorgeous but 30 min is enough. The Citadel is right up the hill.</div>`,
+<div class="rc-tip">💡 If legs are shot from Point Pleasant, skip the Citadel and head straight to Freak Lunchbox. Candy heals everything.</div>`,
 8:`<strong>⏱ 30-45 min</strong> · Free (grounds/views) · $12 adult for interior (optional)
 <ul>
-<li>Star-shaped hilltop fortress overlooking the entire city and harbour. About a 10 min uphill walk from the Public Gardens.</li>
+<li>Star-shaped hilltop fortress overlooking the entire city and harbour. About a 10 min uphill walk from downtown.</li>
 <li><strong>🏔️ The climb:</strong> It's a real hill. Take it slow. The payoff is a 360° panorama — Halifax, Dartmouth, the harbour, Georges Island.</li>
 <li><strong>💰 Skip the paid tour</strong> unless everyone suddenly becomes military history fans. Views and exterior grounds are completely free.</li>
 <li><strong>⚡ Energy check:</strong> If legs are done from Point Pleasant, skip this entirely. The view is great but not worth misery.</li>
@@ -381,7 +378,8 @@ const DETAILS = {
 const BONUS = [
   {name:'Nova Scotia Power Wave',nav:'https://maps.google.com/?q=Nova+Scotia+Power+Wave'},
   {name:"Queen's Marque",nav:'https://maps.google.com/?q=Queen%27s+Marque+Halifax'},
-  {name:'Maritime Museum (Exterior)',nav:'https://maps.google.com/?q=Maritime+Museum+of+the+Atlantic'}
+  {name:'Maritime Museum (Exterior)',nav:'https://maps.google.com/?q=Maritime+Museum+of+the+Atlantic'},
+  {name:'Public Gardens',nav:'https://maps.google.com/?q=Halifax+Public+Gardens'}
 ];
 
 const SIGHTINGS = [
