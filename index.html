@@ -217,7 +217,7 @@ a{color:inherit;text-decoration:none}
     <div class="notes">
       <h3>📋 Rules & Notes</h3>
       <ul>
-        <li><strong>Hard return:</strong> Start heading back at 2:40 PM. No debate.</li>
+        <li><strong>Hard return:</strong> Start heading back at 3:15 PM. Ship deadline 4:00 PM. No debate.</li>
         <li><strong>Public Gardens:</strong> No bikes inside. Lock up outside.</li>
         <li><strong>Point Pleasant Park:</strong> Bikes OK on main roads/pathways (weekday). Be respectful around walkers.</li>
         <li><strong>Weather:</strong> Warm, mostly dry. Bring water. Halifax fog can roll in fast in the afternoon.</li>
@@ -257,9 +257,9 @@ const STOPS = [
   {id:7,time:'12:15',name:'Prince of Wales Tower',emoji:'🗼',desc:'Oldest Martello tower. 5 min, photos.',detail:'One of the oldest Martello towers in North America. Five minutes. Photos. Move.',nav:'https://maps.google.com/?q=Prince+of+Wales+Tower+Halifax',sub:true},
   {id:8,time:'1:15',name:'Public Gardens',emoji:'🌺',desc:'Lock bikes outside. Quick walk, biggest tree challenge.',detail:'Bikes are not allowed inside. Lock up, quick walk, biggest-tree challenge, leave before it eats the afternoon.',nav:'https://maps.google.com/?q=Halifax+Public+Gardens'},
   {id:9,time:'1:45',name:'Halifax Citadel',emoji:'🏔️',desc:'Ride up, enjoy the view, roll back down.',detail:'Skip the paid tour unless everyone suddenly becomes a military history nerd. Ride up, enjoy the view, photos, roll back down.',nav:'https://maps.google.com/?q=Halifax+Citadel'},
-  {id:10,time:'2:15',name:'Freak Lunchbox',emoji:'🍭',desc:'Ridiculous candy, weird sodas, novelty snacks.',detail:'Expect this to beat the Citadel by a mile.',nav:'https://maps.google.com/?q=Freak+Lunchbox+Halifax',essential:true},
-  {id:11,time:'2:25',name:'COWS Ice Cream',emoji:'🍦',desc:'Mandatory. No duplicate flavors.',detail:'Winner of the waterfront challenge gets first pick.',nav:'https://maps.google.com/?q=COWS+Halifax',essential:true},
-  {id:12,time:'2:40',name:'Return Bikes',emoji:'🏁',desc:'Head back. Be at tender area by 3:15.',detail:'Leave yourselves enough time to get back to the tender area by about 3:15 PM.',nav:'https://maps.google.com/?q=I+Heart+Bikes+Halifax',essential:true}
+  {id:10,time:'2:45',name:'Freak Lunchbox',emoji:'🍭',desc:'Ridiculous candy, weird sodas, novelty snacks.',detail:'Expect this to beat the Citadel by a mile.',nav:'https://maps.google.com/?q=Freak+Lunchbox+Halifax',essential:true},
+  {id:11,time:'3:00',name:'COWS Ice Cream',emoji:'🍦',desc:'Mandatory. No duplicate flavors.',detail:'Winner of the waterfront challenge gets first pick.',nav:'https://maps.google.com/?q=COWS+Halifax',essential:true},
+  {id:12,time:'3:15',name:'Return Bikes',emoji:'🏁',desc:'Head back. Ship deadline 4:00 PM.',detail:'Return bikes and head to tender area. Hard ship deadline is 4:00 PM — do not be late.',nav:'https://maps.google.com/?q=I+Heart+Bikes+Halifax',essential:true}
 ];
 
 const BONUS = [
@@ -306,8 +306,9 @@ function save(){localStorage.setItem('halifax_ride',JSON.stringify(state));}
 // ── COUNTDOWN ──
 // Ride day: July 8, 2026. Times in ADT (UTC-3).
 const RIDE_START = new Date('2026-07-08T10:30:00-03:00').getTime();
-const RETURN_TIME = new Date('2026-07-08T14:40:00-03:00').getTime();
-const RIDE_END = new Date('2026-07-08T15:15:00-03:00').getTime();
+const RETURN_TIME = new Date('2026-07-08T15:15:00-03:00').getTime(); // 3:15 PM ADT — start heading back
+const SHIP_DEADLINE = new Date('2026-07-08T16:00:00-03:00').getTime(); // 4:00 PM ADT — hard ship deadline
+const RIDE_END = SHIP_DEADLINE;
 
 function updateCountdown(){
   const now = Date.now();
@@ -324,12 +325,14 @@ function updateCountdown(){
     const d = RETURN_TIME - now;
     const mins = d / 60000;
     timeEl.textContent = fmtDuration(d);
-    labelEl.textContent = 'until 2:40 PM return';
+    labelEl.textContent = 'until 3:15 PM — start heading back';
     if(mins <= 15) cd.classList.add('urgent');
-    else if(mins <= 45) cd.classList.add('warn');
-  } else if(now < RIDE_END){
-    timeEl.textContent = 'HEAD BACK';
-    labelEl.textContent = 'Return deadline passed!';
+    else if(mins <= 30) cd.classList.add('warn');
+  } else if(now < SHIP_DEADLINE){
+    const d = SHIP_DEADLINE - now;
+    const mins = d / 60000;
+    timeEl.textContent = fmtDuration(d);
+    labelEl.textContent = 'UNTIL 4:00 PM SHIP DEADLINE';
     cd.classList.add('urgent');
     document.getElementById('header').style.background = 'linear-gradient(135deg,#7f1d1d,#991b1b)';
   } else {
