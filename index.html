@@ -187,7 +187,7 @@ a{color:inherit;text-decoration:none}
       <button class="rt-btn on" onclick="setRouteMode('full')">🗺️ Full Day</button>
       <button class="rt-btn" onclick="setRouteMode('quick')">⚡ Highlights</button>
     </div>
-    <div class="banner warn" style="margin:8px 12px 2px">🌲 More Point Pleasant time! Public Gardens cut. Uber downtown at 1:00. Terminal by 2:30.</div>
+    <div class="banner warn" style="margin:8px 12px 2px">🗺️ Route optimized south→north. No backtracking. Citadel optional.</div>
     <div id="route-banner"></div>
     <div id="route-list"></div>
     <div class="bonus" id="bonus-section">
@@ -265,9 +265,9 @@ const STOPS = [
   {id:4,time:'10:45',name:'Uber \u2192 Point Pleasant',emoji:'🚗',desc:'MAIN EVENT. 5 min Uber. Explore on foot.',detail:'Too far to walk comfortably. Uber there (~5 min, ~$8-10 CAD). Explore trails, overlooks, old forts, cannons, shoreline views. Challenge: coolest hidden spot wins a vote from everyone.',nav:'https://maps.google.com/?q=Point+Pleasant+Park+Halifax',isMain:true,essential:true},
   {id:5,time:'11:00',name:'Cambridge Battery',emoji:'🏰',desc:'Inside Point Pleasant. Most tourists miss it.',detail:'Good target for the hidden-spot challenge. Short walk from park entrance.',nav:'https://maps.google.com/?q=Cambridge+Battery+Point+Pleasant+Park',sub:true},
   {id:6,time:'11:20',name:'Prince of Wales Tower',emoji:'🗼',desc:'Oldest Martello tower. 5 min, photos.',detail:'One of the oldest Martello towers in North America. Five minutes. Photos. Move.',nav:'https://maps.google.com/?q=Prince+of+Wales+Tower+Halifax',sub:true},
-  {id:7,time:'1:00',name:'Uber \u2192 Downtown',emoji:'🚗',desc:'Uber from Point Pleasant to downtown. Candy time.',detail:'Exit via Tower Rd or Young Ave. Uber to Barrington St area (~5 min, ~$8-10 CAD).',nav:'https://maps.google.com/?q=Barrington+St+Halifax+NS',essential:true},
-  {id:8,time:'1:15',name:'Halifax Citadel',emoji:'🏔️',desc:'Walk up the hill. Views are worth it.',detail:'Real climb on foot. Skip if energy is low. The view from the top is the payoff.',nav:'https://maps.google.com/?q=Halifax+Citadel'},
-  {id:9,time:'1:20',name:'Pier 21',emoji:'🏛️',desc:"Canada's Ellis Island. 5 min context stop.",detail:"Walk back down from Citadel toward the waterfront. Five-minute context stop.",nav:'https://maps.google.com/?q=Pier+21+Halifax'},
+  {id:9,time:'12:45',name:'Pier 21',emoji:'🏛️',desc:'Right by PP exit. Quick walk-by on the way out.',detail:'2 min walk from the park. Quick look, then Uber from here.',nav:'https://maps.google.com/?q=Pier+21+Halifax'},
+  {id:7,time:'1:00',name:'Uber \u2192 Downtown',emoji:'🚗',desc:'Uber from waterfront to Barrington St.',detail:'Grab Uber near Pier 21. ~5 min ride to downtown.',nav:'https://maps.google.com/?q=Barrington+St+Halifax+NS',essential:true},
+  {id:8,time:'1:10',name:'Halifax Citadel',emoji:'🏔️',desc:'Optional. Hill climb for 360° views.',detail:'Skip if legs are done. 10 min uphill, then downhill to Freak Lunchbox.',nav:'https://maps.google.com/?q=Halifax+Citadel'},
   {id:10,time:'1:30',name:'Freak Lunchbox',emoji:'🍭',desc:'Ridiculous candy, weird sodas, novelty snacks.',detail:'Expect this to beat the Citadel by a mile. Downtown, easy walk.',nav:'https://maps.google.com/?q=Freak+Lunchbox+Halifax',essential:true},
   {id:11,time:'2:00',name:'COWS Ice Cream',emoji:'🍦',desc:'Mandatory. No duplicate flavors.',detail:'Winner of the waterfront challenge gets first pick.',nav:'https://maps.google.com/?q=COWS+Halifax',essential:true},
   {id:12,time:'2:30',name:'Head to Terminal',emoji:'🏁',desc:'Walk or Uber back. Ship deadline 3:30 PM.',detail:'Walk if close, Uber if needed. Hard ship deadline is 3:30 PM. Do not be late.',nav:'https://maps.google.com/?q=Halifax+Cruise+Terminal',essential:true}
@@ -325,27 +325,27 @@ const DETAILS = {
 </ul>`,
 7:`<strong>🚗 Quick Uber ride</strong> · ~$8-10 CAD · 5 min
 <ul>
-<li><strong>📍 Pickup:</strong> Exit Point Pleasant via Tower Rd or Young Ave. Request Uber from there — don't try from deep inside the park.</li>
-<li><strong>🎯 Drop-off:</strong> Barrington St area puts you right in downtown Halifax. Freak Lunchbox is a 2 min walk.</li>
-<li>This is just a transit stop — the fun is where you're going next.</li>
+<li><strong>📍 Pickup:</strong> Grab an Uber from the Pier 21 / south waterfront area after your walk-by.</li>
+<li><strong>🎯 Drop-off:</strong> Barrington St puts you right in downtown. Freak Lunchbox is a 2 min walk.</li>
+<li>This is just transit — the fun starts at the next stop.</li>
 </ul>
-<div class="rc-tip">💡 If legs are shot from Point Pleasant, skip the Citadel and head straight to Freak Lunchbox. Candy heals everything.</div>`,
-8:`<strong>⏱ 30-45 min</strong> · Free (grounds/views) · $12 adult for interior (optional)
+<div class="rc-tip">💡 If legs are shot from Point Pleasant, skip the Citadel and go straight to Freak Lunchbox. Candy heals everything.</div>`,
+8:`<strong>⏱ 30-45 min · OPTIONAL</strong> · Free (grounds/views) · Adds ~30 min to your day
 <ul>
 <li>Star-shaped hilltop fortress overlooking the entire city and harbour. About a 10 min uphill walk from downtown.</li>
-<li><strong>🏔️ The climb:</strong> It's a real hill. Take it slow. The payoff is a 360° panorama — Halifax, Dartmouth, the harbour, Georges Island.</li>
+<li><strong>🏔️ The climb:</strong> Real hill after a full morning on your feet. The payoff is a 360° panorama — Halifax, Dartmouth, the harbour, Georges Island.</li>
 <li><strong>💰 Skip the paid tour</strong> unless everyone suddenly becomes military history fans. Views and exterior grounds are completely free.</li>
-<li><strong>⚡ Energy check:</strong> If legs are done from Point Pleasant, skip this entirely. The view is great but not worth misery.</li>
+<li><strong>⚡ Skip if legs are done</strong> from Point Pleasant. Zero shame. Head straight to Freak Lunchbox instead.</li>
 <li><strong>🧒 For the kids:</strong> Soldiers in period uniforms do musket and cannon demos. The noon cannon fires daily at exactly 12:00 — loud and impressive.</li>
 <li><strong>⬇️ Coming down:</strong> Easy downhill walk toward the waterfront. Pier 21 is on the way, then downtown for candy and ice cream.</li>
 </ul>
-<div class="rc-tip">💡 If you arrive before noon, you might catch the daily cannon blast. Free and startlingly loud.</div>`,
-9:`<strong>⏱ 10-15 min</strong> · Free (lobby/exterior) · $12 adult for full museum
+<div class="rc-tip">💡 Skipping this gives you a more relaxed afternoon with extra time at candy + ice cream.</div>`,
+9:`<strong>⏱ 5 min walk-by</strong> · Free (exterior) · Right by Point Pleasant exit
 <ul>
-<li>Canada's Ellis Island. Between 1928 and 1971, over one million immigrants entered Canada through this very building.</li>
-<li>The lobby has a few free historical displays. The full museum is a bigger time investment than you probably want today.</li>
-<li><strong>📜 Worth knowing:</strong> Over 500,000 military personnel also shipped out from here during WWII. Same dock, opposite direction.</li>
-<li>Five-minute context stop. Appreciate the history, then keep walking along the waterfront toward downtown.</li>
+<li>Canada's Ellis Island. Over one million immigrants entered Canada through this building between 1928 and 1971.</li>
+<li>It's a 2 min walk from the Point Pleasant park exit — literally on your way out. Quick photo of the exterior.</li>
+<li><strong>📜 Worth knowing:</strong> Over 500,000 military personnel shipped out from here during WWII. Same dock, opposite direction.</li>
+<li>Don't go inside — just appreciate the building and walk to your Uber pickup spot.</li>
 </ul>`,
 10:`<strong>⏱ 20-30 min</strong> · $ (set a candy budget first!)
 <ul>
