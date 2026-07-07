@@ -217,7 +217,7 @@ a{color:inherit;text-decoration:none}
     <div class="notes">
       <h3>📋 Rules & Notes</h3>
       <ul>
-        <li><strong>Hard return:</strong> Start heading back at 3:15 PM. Ship deadline 4:00 PM. No debate.</li>
+        <li><strong>Hard return:</strong> Start heading back at 2:45 PM. Ship deadline 3:30 PM. No debate.</li>
         <li><strong>Public Gardens:</strong> No bikes inside. Lock up outside.</li>
         <li><strong>Point Pleasant Park:</strong> Bikes OK on main roads/pathways (weekday). Be respectful around walkers.</li>
         <li><strong>Weather:</strong> Warm, mostly dry. Bring water. Halifax fog can roll in fast in the afternoon.</li>
@@ -248,18 +248,18 @@ a{color:inherit;text-decoration:none}
 <script>
 // ── DATA ──
 const STOPS = [
-  {id:1,time:'10:30',name:'I Heart Bikes',emoji:'🚲',desc:'Pick up bikes, ask about closures and hidden spots.',detail:'Get the bikes, ask about closures, and ask for one hidden add-on for active teenagers.',nav:'https://maps.google.com/?q=I+Heart+Bikes+Halifax',essential:true},
-  {id:2,time:'10:45',name:'Waterfront Boardwalk',emoji:'🌊',desc:'10 min challenge: find the coolest thing.',detail:'Everyone gets 10 minutes to find the coolest waterfront thing. Winner gets first ice cream pick later.',nav:'https://maps.google.com/?q=Halifax+Waterfront+Boardwalk',essential:true},
-  {id:3,time:'10:55',name:'HMCS Sackville',emoji:'⚓',desc:'WWII Corvette. Walk around, photos, move.',detail:"Canada's last surviving WWII Corvette. Do not turn this into a museum stop. Walk around, photos, move.",nav:'https://maps.google.com/?q=HMCS+Sackville'},
-  {id:4,time:'11:10',name:'Pier 21',emoji:'🏛️',desc:"Canada's Ellis Island. 5 min context stop.",detail:"Five-minute context stop. Worth seeing, not worth swallowing the day.",nav:'https://maps.google.com/?q=Pier+21+Halifax'},
-  {id:5,time:'11:30',name:'Point Pleasant Park',emoji:'🌲',desc:'MAIN EVENT. Explore everything.',detail:'Do not just ride one road. Explore paved routes, overlooks, old forts, cannons, big trees, and shoreline views. Challenge: coolest hidden spot wins one vote from everyone.',nav:'https://maps.google.com/?q=Point+Pleasant+Park+Halifax',isMain:true,essential:true},
-  {id:6,time:'11:50',name:'Cambridge Battery',emoji:'🏰',desc:'Inside Point Pleasant. Most tourists miss it.',detail:'Good target for the hidden-spot challenge.',nav:'https://maps.google.com/?q=Cambridge+Battery+Point+Pleasant+Park',sub:true},
-  {id:7,time:'12:15',name:'Prince of Wales Tower',emoji:'🗼',desc:'Oldest Martello tower. 5 min, photos.',detail:'One of the oldest Martello towers in North America. Five minutes. Photos. Move.',nav:'https://maps.google.com/?q=Prince+of+Wales+Tower+Halifax',sub:true},
-  {id:8,time:'1:15',name:'Public Gardens',emoji:'🌺',desc:'Lock bikes outside. Quick walk, biggest tree challenge.',detail:'Bikes are not allowed inside. Lock up, quick walk, biggest-tree challenge, leave before it eats the afternoon.',nav:'https://maps.google.com/?q=Halifax+Public+Gardens'},
-  {id:9,time:'1:45',name:'Halifax Citadel',emoji:'🏔️',desc:'Ride up, enjoy the view, roll back down.',detail:'Skip the paid tour unless everyone suddenly becomes a military history nerd. Ride up, enjoy the view, photos, roll back down.',nav:'https://maps.google.com/?q=Halifax+Citadel'},
-  {id:10,time:'2:45',name:'Freak Lunchbox',emoji:'🍭',desc:'Ridiculous candy, weird sodas, novelty snacks.',detail:'Expect this to beat the Citadel by a mile.',nav:'https://maps.google.com/?q=Freak+Lunchbox+Halifax',essential:true},
-  {id:11,time:'3:00',name:'COWS Ice Cream',emoji:'🍦',desc:'Mandatory. No duplicate flavors.',detail:'Winner of the waterfront challenge gets first pick.',nav:'https://maps.google.com/?q=COWS+Halifax',essential:true},
-  {id:12,time:'3:15',name:'Return Bikes',emoji:'🏁',desc:'Head back. Ship deadline 4:00 PM.',detail:'Return bikes and head to tender area. Hard ship deadline is 4:00 PM — do not be late.',nav:'https://maps.google.com/?q=I+Heart+Bikes+Halifax',essential:true}
+  {id:1,time:'9:30',name:'I Heart Bikes',emoji:'🚲',desc:'Pick up bikes, ask about closures and hidden spots.',detail:'Get the bikes, ask about closures, and ask for one hidden add-on for active teenagers.',nav:'https://maps.google.com/?q=I+Heart+Bikes+Halifax',essential:true},
+  {id:2,time:'9:45',name:'Waterfront Boardwalk',emoji:'🌊',desc:'10 min challenge: find the coolest thing.',detail:'Everyone gets 10 minutes to find the coolest waterfront thing. Winner gets first ice cream pick later.',nav:'https://maps.google.com/?q=Halifax+Waterfront+Boardwalk',essential:true},
+  {id:3,time:'9:55',name:'HMCS Sackville',emoji:'⚓',desc:'WWII Corvette. Walk around, photos, move.',detail:"Canada's last surviving WWII Corvette. Do not turn this into a museum stop. Walk around, photos, move.",nav:'https://maps.google.com/?q=HMCS+Sackville'},
+  {id:4,time:'10:10',name:'Pier 21',emoji:'🏛️',desc:"Canada's Ellis Island. 5 min context stop.",detail:"Five-minute context stop. Worth seeing, not worth swallowing the day.",nav:'https://maps.google.com/?q=Pier+21+Halifax'},
+  {id:5,time:'10:30',name:'Point Pleasant Park',emoji:'🌲',desc:'MAIN EVENT. Explore everything.',detail:'Do not just ride one road. Explore paved routes, overlooks, old forts, cannons, big trees, and shoreline views. Challenge: coolest hidden spot wins one vote from everyone.',nav:'https://maps.google.com/?q=Point+Pleasant+Park+Halifax',isMain:true,essential:true},
+  {id:6,time:'10:50',name:'Cambridge Battery',emoji:'🏰',desc:'Inside Point Pleasant. Most tourists miss it.',detail:'Good target for the hidden-spot challenge.',nav:'https://maps.google.com/?q=Cambridge+Battery+Point+Pleasant+Park',sub:true},
+  {id:7,time:'11:15',name:'Prince of Wales Tower',emoji:'🗼',desc:'Oldest Martello tower. 5 min, photos.',detail:'One of the oldest Martello towers in North America. Five minutes. Photos. Move.',nav:'https://maps.google.com/?q=Prince+of+Wales+Tower+Halifax',sub:true},
+  {id:8,time:'12:15',name:'Public Gardens',emoji:'🌺',desc:'Lock bikes outside. Quick walk, biggest tree challenge.',detail:'Bikes are not allowed inside. Lock up, quick walk, biggest-tree challenge, leave before it eats the afternoon.',nav:'https://maps.google.com/?q=Halifax+Public+Gardens'},
+  {id:9,time:'12:45',name:'Halifax Citadel',emoji:'🏔️',desc:'Ride up, enjoy the view, roll back down.',detail:'Skip the paid tour unless everyone suddenly becomes a military history nerd. Ride up, enjoy the view, photos, roll back down.',nav:'https://maps.google.com/?q=Halifax+Citadel'},
+  {id:10,time:'1:45',name:'Freak Lunchbox',emoji:'🍭',desc:'Ridiculous candy, weird sodas, novelty snacks.',detail:'Expect this to beat the Citadel by a mile.',nav:'https://maps.google.com/?q=Freak+Lunchbox+Halifax',essential:true},
+  {id:11,time:'2:00',name:'COWS Ice Cream',emoji:'🍦',desc:'Mandatory. No duplicate flavors.',detail:'Winner of the waterfront challenge gets first pick.',nav:'https://maps.google.com/?q=COWS+Halifax',essential:true},
+  {id:12,time:'2:45',name:'Return Bikes',emoji:'🏁',desc:'Head back. Ship deadline 3:30 PM.',detail:'Return bikes and head to tender area. Hard ship deadline is 3:30 PM — do not be late.',nav:'https://maps.google.com/?q=I+Heart+Bikes+Halifax',essential:true}
 ];
 
 const BONUS = [
@@ -305,9 +305,9 @@ function save(){localStorage.setItem('halifax_ride',JSON.stringify(state));}
 
 // ── COUNTDOWN ──
 // Ride day: July 8, 2026. Times in ADT (UTC-3).
-const RIDE_START = new Date('2026-07-07T10:30:00-03:00').getTime();
-const RETURN_TIME = new Date('2026-07-07T15:15:00-03:00').getTime(); // 3:15 PM ADT — start heading back
-const SHIP_DEADLINE = new Date('2026-07-07T16:00:00-03:00').getTime(); // 4:00 PM ADT — hard ship deadline
+const RIDE_START = new Date('2026-07-07T09:30:00-03:00').getTime();
+const RETURN_TIME = new Date('2026-07-07T14:45:00-03:00').getTime(); // 2:45 PM ADT — start heading back
+const SHIP_DEADLINE = new Date('2026-07-07T15:30:00-03:00').getTime(); // 3:30 PM ADT — hard ship deadline
 const RIDE_END = SHIP_DEADLINE;
 
 function updateCountdown(){
@@ -325,14 +325,14 @@ function updateCountdown(){
     const d = RETURN_TIME - now;
     const mins = d / 60000;
     timeEl.textContent = fmtDuration(d);
-    labelEl.textContent = 'until 3:15 PM — start heading back';
+    labelEl.textContent = 'until 2:45 PM — start heading back';
     if(mins <= 15) cd.classList.add('urgent');
     else if(mins <= 30) cd.classList.add('warn');
   } else if(now < SHIP_DEADLINE){
     const d = SHIP_DEADLINE - now;
     const mins = d / 60000;
     timeEl.textContent = fmtDuration(d);
-    labelEl.textContent = 'UNTIL 4:00 PM SHIP DEADLINE';
+    labelEl.textContent = 'UNTIL 3:30 PM SHIP DEADLINE';
     cd.classList.add('urgent');
     document.getElementById('header').style.background = 'linear-gradient(135deg,#7f1d1d,#991b1b)';
   } else {
