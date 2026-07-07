@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#0d1b2a">
-<title>Halifax Adventure Ride</title>
+<title>Halifax Adventure Day</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚴</text></svg>">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -155,8 +155,8 @@ a{color:inherit;text-decoration:none}
 <!-- HEADER -->
 <header class="hdr" id="header">
   <div class="hdr-top">
-    <span style="font-size:18px">🚴</span>
-    <span class="hdr-title">Halifax Adventure Ride</span>
+    <span style="font-size:18px">🗺️</span>
+    <span class="hdr-title">Halifax Adventure Day</span>
   </div>
   <div class="hdr-date">Monday, July 7, 2026</div>
   <div class="cd" id="countdown">
@@ -164,8 +164,9 @@ a{color:inherit;text-decoration:none}
     <div class="cd-label" id="cd-label">loading...</div>
   </div>
   <div class="hdr-btns">
-    <a class="hdr-btn" href="https://maps.google.com/?q=I+Heart+Bikes+Halifax" target="_blank">📍 Bike Shop</a>
+    <a class="hdr-btn" href="https://maps.google.com/?q=I+Heart+Bikes+Halifax" target="_blank">🚲 Bike Shop</a>
     <a class="hdr-btn" href="https://maps.google.com/?q=Halifax+Cruise+Terminal" target="_blank">🚢 Terminal</a>
+    <a class="hdr-btn" href="https://m.uber.com" target="_blank">🚗 Uber</a>
   </div>
 </header>
 <div class="spacer"></div>
@@ -175,9 +176,10 @@ a{color:inherit;text-decoration:none}
   <!-- ROUTE TAB -->
   <div class="tab on" id="tab-route">
     <div class="rt-toggle">
-      <button class="rt-btn on" onclick="setRouteMode('full')">🗺️ Full Route</button>
-      <button class="rt-btn" onclick="setRouteMode('quick')">⚡ Quick Route</button>
+      <button class="rt-btn on" onclick="setRouteMode('full')">🗺️ Full Day</button>
+      <button class="rt-btn" onclick="setRouteMode('quick')">⚡ Highlights</button>
     </div>
+    <div class="banner warn" style="margin:8px 12px 2px">🚲 Bikes sold out — checking back ~10:30. Walking + Uber plan active.</div>
     <div id="route-banner"></div>
     <div id="route-list"></div>
     <div class="bonus" id="bonus-section">
@@ -209,19 +211,20 @@ a{color:inherit;text-decoration:none}
 
   <!-- CHECK TAB -->
   <div class="tab" id="tab-check">
-    <div class="sh">Morning Check (at bike shop)</div>
+    <div class="sh">Morning Status</div>
     <div class="ck" id="checklist-morning"></div>
-    <div class="sh">Before You Roll</div>
+    <div class="sh">Before You Walk</div>
     <div class="ck" id="checklist-gear"></div>
     <div class="sh">Quick Reference</div>
     <div class="notes">
       <h3>📋 Rules & Notes</h3>
       <ul>
-        <li><strong>Hard return:</strong> Start heading back at 2:45 PM. Ship deadline 3:30 PM. No debate.</li>
-        <li><strong>Public Gardens:</strong> No bikes inside. Lock up outside.</li>
-        <li><strong>Point Pleasant Park:</strong> Bikes OK on main roads/pathways (weekday). Be respectful around walkers.</li>
+        <li><strong>Hard return:</strong> Head to terminal by 2:45 PM. Ship deadline 3:30 PM. No debate.</li>
+        <li><strong>Transport:</strong> Walking + Uber today. Checking back at bike shop ~10:30.</li>
+        <li><strong>Uber tip:</strong> Request pickups at park exits, not deep inside parks.</li>
+        <li><strong>Point Pleasant Park:</strong> Stick to main paths. Be respectful around walkers.</li>
         <li><strong>Weather:</strong> Warm, mostly dry. Bring water. Halifax fog can roll in fast in the afternoon.</li>
-        <li><strong>Citadel hill:</strong> Real climb on a bike. Skip if energy is low.</li>
+        <li><strong>Citadel hill:</strong> Real climb on foot. Skip if energy is low.</li>
         <li><strong>Cell service:</strong> May be spotty in Point Pleasant Park.</li>
       </ul>
     </div>
@@ -248,18 +251,18 @@ a{color:inherit;text-decoration:none}
 <script>
 // ── DATA ──
 const STOPS = [
-  {id:1,time:'9:30',name:'I Heart Bikes',emoji:'🚲',desc:'Pick up bikes, ask about closures and hidden spots.',detail:'Get the bikes, ask about closures, and ask for one hidden add-on for active teenagers.',nav:'https://maps.google.com/?q=I+Heart+Bikes+Halifax',essential:true},
-  {id:2,time:'9:45',name:'Waterfront Boardwalk',emoji:'🌊',desc:'10 min challenge: find the coolest thing.',detail:'Everyone gets 10 minutes to find the coolest waterfront thing. Winner gets first ice cream pick later.',nav:'https://maps.google.com/?q=Halifax+Waterfront+Boardwalk',essential:true},
-  {id:3,time:'9:55',name:'HMCS Sackville',emoji:'⚓',desc:'WWII Corvette. Walk around, photos, move.',detail:"Canada's last surviving WWII Corvette. Do not turn this into a museum stop. Walk around, photos, move.",nav:'https://maps.google.com/?q=HMCS+Sackville'},
-  {id:4,time:'10:10',name:'Pier 21',emoji:'🏛️',desc:"Canada's Ellis Island. 5 min context stop.",detail:"Five-minute context stop. Worth seeing, not worth swallowing the day.",nav:'https://maps.google.com/?q=Pier+21+Halifax'},
-  {id:5,time:'10:30',name:'Point Pleasant Park',emoji:'🌲',desc:'MAIN EVENT. Explore everything.',detail:'Do not just ride one road. Explore paved routes, overlooks, old forts, cannons, big trees, and shoreline views. Challenge: coolest hidden spot wins one vote from everyone.',nav:'https://maps.google.com/?q=Point+Pleasant+Park+Halifax',isMain:true,essential:true},
-  {id:6,time:'10:50',name:'Cambridge Battery',emoji:'🏰',desc:'Inside Point Pleasant. Most tourists miss it.',detail:'Good target for the hidden-spot challenge.',nav:'https://maps.google.com/?q=Cambridge+Battery+Point+Pleasant+Park',sub:true},
-  {id:7,time:'11:15',name:'Prince of Wales Tower',emoji:'🗼',desc:'Oldest Martello tower. 5 min, photos.',detail:'One of the oldest Martello towers in North America. Five minutes. Photos. Move.',nav:'https://maps.google.com/?q=Prince+of+Wales+Tower+Halifax',sub:true},
-  {id:8,time:'12:15',name:'Public Gardens',emoji:'🌺',desc:'Lock bikes outside. Quick walk, biggest tree challenge.',detail:'Bikes are not allowed inside. Lock up, quick walk, biggest-tree challenge, leave before it eats the afternoon.',nav:'https://maps.google.com/?q=Halifax+Public+Gardens'},
-  {id:9,time:'12:45',name:'Halifax Citadel',emoji:'🏔️',desc:'Ride up, enjoy the view, roll back down.',detail:'Skip the paid tour unless everyone suddenly becomes a military history nerd. Ride up, enjoy the view, photos, roll back down.',nav:'https://maps.google.com/?q=Halifax+Citadel'},
-  {id:10,time:'1:45',name:'Freak Lunchbox',emoji:'🍭',desc:'Ridiculous candy, weird sodas, novelty snacks.',detail:'Expect this to beat the Citadel by a mile.',nav:'https://maps.google.com/?q=Freak+Lunchbox+Halifax',essential:true},
-  {id:11,time:'2:00',name:'COWS Ice Cream',emoji:'🍦',desc:'Mandatory. No duplicate flavors.',detail:'Winner of the waterfront challenge gets first pick.',nav:'https://maps.google.com/?q=COWS+Halifax',essential:true},
-  {id:12,time:'2:45',name:'Return Bikes',emoji:'🏁',desc:'Head back. Ship deadline 3:30 PM.',detail:'Return bikes and head to tender area. Hard ship deadline is 3:30 PM — do not be late.',nav:'https://maps.google.com/?q=I+Heart+Bikes+Halifax',essential:true}
+  {id:1,time:'9:45',name:'Waterfront Boardwalk',emoji:'🌊',desc:'Walk the waterfront while we wait. Coolest-find challenge!',detail:'Everyone gets 10 minutes to find the coolest waterfront thing. Winner gets first ice cream pick later.',nav:'https://maps.google.com/?q=Halifax+Waterfront+Boardwalk',essential:true},
+  {id:2,time:'10:00',name:'HMCS Sackville',emoji:'⚓',desc:'WWII Corvette. Walk around, photos.',detail:"Canada's last surviving WWII Corvette. Right on the waterfront. Quick stop while we're nearby.",nav:'https://maps.google.com/?q=HMCS+Sackville'},
+  {id:3,time:'10:30',name:'Check Back — Bike Shop',emoji:'🚲',desc:'Check if bikes or scooters opened up.',detail:'I Heart Bikes said check back in an hour. If they have bikes, grab them and switch to bike mode. If not, keep walking + Uber.',nav:'https://maps.google.com/?q=I+Heart+Bikes+Halifax',essential:true},
+  {id:4,time:'10:45',name:'Uber \u2192 Point Pleasant',emoji:'🚗',desc:'MAIN EVENT. 5 min Uber. Explore on foot.',detail:'Too far to walk comfortably. Uber there (~5 min, ~$8-10 CAD). Explore trails, overlooks, old forts, cannons, shoreline views. Challenge: coolest hidden spot wins a vote from everyone.',nav:'https://maps.google.com/?q=Point+Pleasant+Park+Halifax',isMain:true,essential:true},
+  {id:5,time:'11:00',name:'Cambridge Battery',emoji:'🏰',desc:'Inside Point Pleasant. Most tourists miss it.',detail:'Good target for the hidden-spot challenge. Short walk from park entrance.',nav:'https://maps.google.com/?q=Cambridge+Battery+Point+Pleasant+Park',sub:true},
+  {id:6,time:'11:20',name:'Prince of Wales Tower',emoji:'🗼',desc:'Oldest Martello tower. 5 min, photos.',detail:'One of the oldest Martello towers in North America. Five minutes. Photos. Move.',nav:'https://maps.google.com/?q=Prince+of+Wales+Tower+Halifax',sub:true},
+  {id:7,time:'11:45',name:'Uber \u2192 Public Gardens',emoji:'🚗',desc:'Uber back downtown. Walk the gardens.',detail:'Uber from Point Pleasant back to downtown (~5 min). No bikes to worry about, just walk right in. Biggest-tree challenge.',nav:'https://maps.google.com/?q=Halifax+Public+Gardens',essential:true},
+  {id:8,time:'12:15',name:'Halifax Citadel',emoji:'🏔️',desc:'Walk up the hill. Views are worth it.',detail:'Real climb on foot. Skip if energy is low. The view from the top is the payoff.',nav:'https://maps.google.com/?q=Halifax+Citadel'},
+  {id:9,time:'12:45',name:'Pier 21',emoji:'🏛️',desc:"Canada's Ellis Island. 5 min context stop.",detail:"Walk back down from Citadel toward the waterfront. Five-minute context stop.",nav:'https://maps.google.com/?q=Pier+21+Halifax'},
+  {id:10,time:'1:15',name:'Freak Lunchbox',emoji:'🍭',desc:'Ridiculous candy, weird sodas, novelty snacks.',detail:'Expect this to beat the Citadel by a mile. Downtown, easy walk.',nav:'https://maps.google.com/?q=Freak+Lunchbox+Halifax',essential:true},
+  {id:11,time:'1:45',name:'COWS Ice Cream',emoji:'🍦',desc:'Mandatory. No duplicate flavors.',detail:'Winner of the waterfront challenge gets first pick.',nav:'https://maps.google.com/?q=COWS+Halifax',essential:true},
+  {id:12,time:'2:45',name:'Head to Terminal',emoji:'🏁',desc:'Walk or Uber back. Ship deadline 3:30 PM.',detail:'Walk if close, Uber if needed. Hard ship deadline is 3:30 PM. Do not be late.',nav:'https://maps.google.com/?q=Halifax+Cruise+Terminal',essential:true}
 ];
 
 const BONUS = [
@@ -281,16 +284,17 @@ const SIGHTINGS = [
 ];
 
 const MORNING_CHECKS = [
-  {id:'m0',text:'Ask: "Any trail closures today?"'},
-  {id:'m1',text:'Ask: "One spot to add for active teenagers?"'},
-  {id:'m2',text:'Confirm return deadline and bike lock rules'},
+  {id:'m0',text:'Check back at I Heart Bikes ~10:30 for bikes/scooters'},
+  {id:'m1',text:'Everyone download Uber (if not already)'},
+  {id:'m2',text:'Confirm return deadline: back by 3:30 PM'},
   {id:'m3',text:'Check phone batteries'}
 ];
 
 const GEAR_CHECKS = [
   {id:'g0',text:'Water bottles filled'},
   {id:'g1',text:'Sunscreen applied'},
-  {id:'g2',text:'Light layer packed (Halifax fog)'}
+  {id:'g2',text:'Comfortable walking shoes on'},
+  {id:'g3',text:'Light layer packed (Halifax fog)'}
 ];
 
 const PLAYER_COLORS = ['#3b82f6','#ef4444','#22c55e','#f97316','#8b5cf6','#ec4899','#14b8a6','#f59e0b'];
@@ -320,7 +324,7 @@ function updateCountdown(){
   if(now < RIDE_START){
     const d = RIDE_START - now;
     timeEl.textContent = fmtDuration(d);
-    labelEl.textContent = 'until ride starts';
+    labelEl.textContent = 'until adventure starts';
   } else if(now < RETURN_TIME){
     const d = RETURN_TIME - now;
     const mins = d / 60000;
