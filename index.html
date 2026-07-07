@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#0d1b2a">
+<title>Halifax Adventure Ride</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚴</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0d1b2a;--navy2:#1b2838;--blue:#3b82f6;--orange:#f97316;
+  --green:#22c55e;--red:#ef4444;--gold:#eab308;
+  --bg:#f1f5f9;--card:#fff;--text:#0f172a;--text2:#64748b;
+  --border:#e2e8f0;--radius:14px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+/* HEADER */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:100;background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:8px 16px;padding-top:max(8px,env(safe-area-inset-top))}
+.hdr-top{display:flex;align-items:center;justify-content:center;gap:8px}
+.hdr-title{font-size:13px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+.hdr-date{font-size:11px;text-align:center;opacity:.55;margin-top:1px}
+.cd{text-align:center;margin:6px 0 4px}
+.cd-time{font-size:36px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:1px;line-height:1}
+.cd-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-top:3px}
+.cd.warn .cd-time{color:var(--orange)}
+.cd.urgent .cd-time{color:var(--red)}
+.cd.urgent{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.hdr-btns{display:flex;gap:6px;margin-top:4px}
+.hdr-btn{flex:1;padding:5px 8px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-size:11px;text-align:center;font-weight:600;display:flex;align-items:center;justify-content:center;gap:4px}
+.hdr-btn:active{background:rgba(255,255,255,.2)}
+
+/* SPACER */
+.spacer{height:138px}
+
+/* BOTTOM NAV */
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--card);border-top:1px solid var(--border);display:flex;padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav-t{flex:1;padding:6px 0 4px;text-align:center;border:none;background:none;color:var(--text2);transition:color .15s}
+.nav-t.on{color:var(--blue)}
+.nav-t .ico{font-size:22px;display:block;line-height:1.2}
+.nav-t .lbl{font-size:10px;font-weight:700;display:block;margin-top:1px}
+.nav-pad{height:calc(68px + env(safe-area-inset-bottom,0px))}
+
+/* TABS */
+.tab{display:none;padding:4px 0 8px}
+.tab.on{display:block}
+
+/* SECTION HEADER */
+.sh{display:flex;align-items:center;gap:8px;padding:12px 16px 6px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--text2)}
+.sh::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ROUTE TOGGLE */
+.rt-toggle{display:flex;margin:6px 12px 2px;background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.rt-btn{flex:1;padding:8px;border:none;background:none;font-size:12px;font-weight:700;color:var(--text2);transition:all .15s}
+.rt-btn.on{background:var(--blue);color:#fff}
+
+/* ROUTE CARD */
+.rc{background:var(--card);margin:6px 12px;border-radius:var(--radius);box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;transition:opacity .2s}
+.rc.done{opacity:.5}
+.rc.main{border-left:4px solid var(--orange)}
+.rc-h{display:flex;align-items:center;padding:12px 12px 10px;gap:10px}
+.rc-em{font-size:24px;flex-shrink:0}
+.rc-body{flex:1;min-width:0}
+.rc-time{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase}
+.rc.done .rc-time{color:var(--green)}
+.rc-name{font-size:15px;font-weight:800;margin-top:1px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.rc-tag{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:2px 6px;border-radius:4px;background:var(--orange);color:#fff}
+.rc-desc{font-size:12px;color:var(--text2);margin-top:2px;line-height:1.4}
+.rc-go{flex-shrink:0;display:flex;align-items:center;gap:3px;padding:8px 14px;border-radius:10px;background:var(--blue);color:#fff;font-size:12px;font-weight:800;white-space:nowrap;min-height:40px;text-decoration:none}
+.rc-go:active{transform:scale(.95)}
+.rc-go svg{width:14px;height:14px;fill:currentColor}
+.rc-detail{padding:0 12px 10px 50px;font-size:12px;color:var(--text2);line-height:1.5;display:none}
+.rc.exp .rc-detail{display:block}
+.rc-done{display:block;width:100%;padding:9px;border:none;background:#f8fafc;color:var(--text2);font-size:12px;font-weight:700;border-top:1px solid var(--border)}
+.rc-done:active{background:#f1f5f9}
+.rc.done .rc-done{background:#f0fdf4;color:var(--green)}
+
+/* BONUS */
+.bonus{margin:8px 12px;background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.bonus-hdr{padding:12px 16px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.bonus-hdr::after{content:'▸';transition:transform .2s;font-size:12px;color:var(--text2)}
+.bonus.open .bonus-hdr::after{transform:rotate(90deg)}
+.bonus-list{display:none;padding:0 16px 12px}
+.bonus.open .bonus-list{display:block}
+.bonus-item{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-top:1px solid var(--border)}
+.bonus-item:first-child{border:none}
+.bonus-item a{padding:6px 12px;border-radius:8px;background:var(--blue);color:#fff;font-size:11px;font-weight:700}
+
+/* SCORECARD */
+.sc-add{display:flex;gap:8px;margin:8px 12px;padding:12px;background:var(--card);border-radius:var(--radius);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.sc-input{flex:1;padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;outline:none;min-width:0}
+.sc-input:focus{border-color:var(--blue)}
+.sc-add-btn{padding:10px 20px;border:none;border-radius:10px;background:var(--blue);color:#fff;font-size:14px;font-weight:800}
+.sc-add-btn:active{transform:scale(.95)}
+
+/* LEADERBOARD */
+.lb{margin:6px 12px;display:flex;gap:6px;flex-wrap:wrap}
+.lb-card{flex:1;min-width:70px;background:var(--card);border-radius:var(--radius);padding:10px 8px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.06);position:relative}
+.lb-card.lead{border:2px solid var(--gold)}
+.lb-crown{position:absolute;top:-8px;right:-4px;font-size:16px}
+.lb-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;margin:0 auto 4px}
+.lb-name{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-score{font-size:20px;font-weight:900;color:var(--blue);margin-top:2px}
+.lb-rm{font-size:9px;color:var(--text2);margin-top:4px;border:none;background:none;text-decoration:underline;padding:0}
+
+/* SIGHTING CARDS */
+.sg{background:var(--card);margin:6px 12px;border-radius:var(--radius);box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
+.sg-h{display:flex;align-items:center;padding:10px 14px;gap:10px}
+.sg-em{font-size:28px}
+.sg-info{flex:1}
+.sg-name{font-size:14px;font-weight:700}
+.sg-pts{font-size:12px;font-weight:800;color:var(--orange)}
+.sg-players{display:flex;flex-wrap:wrap;gap:6px;padding:6px 14px 12px}
+.sg-pbtn{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);background:none;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;transition:all .15s}
+.sg-pbtn.claimed{border-color:var(--green);background:var(--green);color:#fff;transform:scale(1.1)}
+.sg-pbtn:active{transform:scale(.9)}
+.sg-empty{padding:8px 14px 14px;font-size:12px;color:var(--text2);font-style:italic}
+
+/* CHECKLIST */
+.ck{background:var(--card);margin:6px 12px;border-radius:var(--radius);box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
+.ck-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-top:1px solid var(--border);cursor:pointer}
+.ck-item:first-child{border:none}
+.ck-box{width:24px;height:24px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;font-size:14px}
+.ck-item.checked .ck-box{background:var(--green);border-color:var(--green);color:#fff}
+.ck-text{font-size:14px;line-height:1.4}
+.ck-item.checked .ck-text{color:var(--text2);text-decoration:line-through}
+
+/* NOTES */
+.notes{background:var(--card);margin:6px 12px;border-radius:var(--radius);box-shadow:0 1px 3px rgba(0,0,0,.06);padding:14px 16px}
+.notes h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;color:var(--text2)}
+.notes li{font-size:13px;line-height:1.5;margin-bottom:6px;margin-left:16px;color:var(--text)}
+.notes ul{list-style:disc}
+
+/* BANNER */
+.banner{margin:6px 12px;padding:14px 16px;border-radius:var(--radius);font-size:13px;font-weight:700;text-align:center;line-height:1.4}
+.banner.info{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+.banner.warn{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}
+.banner.urgent{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;animation:pulse 1s infinite}
+
+@media(min-width:500px){
+  .rc-h{padding:14px 16px}
+  .lb-card{min-width:90px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr" id="header">
+  <div class="hdr-top">
+    <span style="font-size:18px">🚴</span>
+    <span class="hdr-title">Halifax Adventure Ride</span>
+  </div>
+  <div class="hdr-date">Wednesday, July 8, 2026</div>
+  <div class="cd" id="countdown">
+    <div class="cd-time" id="cd-time">--:--:--</div>
+    <div class="cd-label" id="cd-label">loading...</div>
+  </div>
+  <div class="hdr-btns">
+    <a class="hdr-btn" href="https://maps.google.com/?q=I+Heart+Bikes+Halifax" target="_blank">📍 Bike Shop</a>
+    <a class="hdr-btn" href="https://maps.google.com/?q=Halifax+Cruise+Terminal" target="_blank">🚢 Terminal</a>
+  </div>
+</header>
+<div class="spacer"></div>
+
+<!-- MAIN CONTENT -->
+<main>
+  <!-- ROUTE TAB -->
+  <div class="tab on" id="tab-route">
+    <div class="rt-toggle">
+      <button class="rt-btn on" onclick="setRouteMode('full')">🗺️ Full Route</button>
+      <button class="rt-btn" onclick="setRouteMode('quick')">⚡ Quick Route</button>
+    </div>
+    <div id="route-banner"></div>
+    <div id="route-list"></div>
+    <div class="bonus" id="bonus-section">
+      <div class="bonus-hdr" onclick="this.parentElement.classList.toggle('open')">⭐ Bonus Stops (if time allows)</div>
+      <div class="bonus-list" id="bonus-list"></div>
+    </div>
+  </div>
+
+  <!-- SCORE TAB -->
+  <div class="tab" id="tab-score">
+    <div class="sh">Leaderboard</div>
+    <div class="lb" id="leaderboard"></div>
+    <div class="sc-add">
+      <input class="sc-input" id="player-input" type="text" placeholder="Add player name..." maxlength="12" autocomplete="off">
+      <button class="sc-add-btn" onclick="addPlayer()">Add</button>
+    </div>
+    <div class="sh">Sightings <span style="font-weight:400;font-size:11px;text-transform:none;letter-spacing:0">- tap player to claim</span></div>
+    <div id="sightings-list"></div>
+    <div class="notes" style="margin-top:12px">
+      <h3>🏆 Challenges</h3>
+      <ul>
+        <li><strong>Waterfront:</strong> Coolest thing found = first ice cream pick</li>
+        <li><strong>Point Pleasant:</strong> Coolest hidden spot = vote from everyone</li>
+        <li><strong>Public Gardens:</strong> Find the biggest tree</li>
+        <li><strong>Overall winner:</strong> Chooses dessert on the ship tonight</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CHECK TAB -->
+  <div class="tab" id="tab-check">
+    <div class="sh">Morning Check (at bike shop)</div>
+    <div class="ck" id="checklist-morning"></div>
+    <div class="sh">Before You Roll</div>
+    <div class="ck" id="checklist-gear"></div>
+    <div class="sh">Quick Reference</div>
+    <div class="notes">
+      <h3>📋 Rules & Notes</h3>
+      <ul>
+        <li><strong>Hard return:</strong> Start heading back at 2:40 PM. No debate.</li>
+        <li><strong>Public Gardens:</strong> No bikes inside. Lock up outside.</li>
+        <li><strong>Point Pleasant Park:</strong> Bikes OK on main roads/pathways (weekday). Be respectful around walkers.</li>
+        <li><strong>Weather:</strong> Warm, mostly dry. Bring water. Halifax fog can roll in fast in the afternoon.</li>
+        <li><strong>Citadel hill:</strong> Real climb on a bike. Skip if energy is low.</li>
+        <li><strong>Cell service:</strong> May be spotty in Point Pleasant Park.</li>
+      </ul>
+    </div>
+    <div class="notes" style="margin-top:8px">
+      <h3>🔗 Key Links</h3>
+      <ul style="list-style:none;margin-left:0">
+        <li style="margin-bottom:10px"><a href="https://maps.google.com/?q=I+Heart+Bikes+Halifax" target="_blank" style="color:var(--blue);font-weight:700">📍 I Heart Bikes (start/end)</a></li>
+        <li style="margin-bottom:10px"><a href="https://maps.google.com/?q=Halifax+Cruise+Terminal" target="_blank" style="color:var(--blue);font-weight:700">🚢 Cruise Terminal</a></li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<!-- NAV PAD -->
+<div class="nav-pad"></div>
+
+<!-- BOTTOM NAV -->
+<nav class="nav">
+  <button class="nav-t on" onclick="switchTab('route')"><span class="ico">🗺️</span><span class="lbl">Route</span></button>
+  <button class="nav-t" onclick="switchTab('score')"><span class="ico">🏆</span><span class="lbl">Score</span></button>
+  <button class="nav-t" onclick="switchTab('check')"><span class="ico">✅</span><span class="lbl">Check</span></button>
+</nav>
+
+<script>
+// ── DATA ──
+const STOPS = [
+  {id:1,time:'10:30',name:'I Heart Bikes',emoji:'🚲',desc:'Pick up bikes, ask about closures and hidden spots.',detail:'Get the bikes, ask about closures, and ask for one hidden add-on for active teenagers.',nav:'https://maps.google.com/?q=I+Heart+Bikes+Halifax',essential:true},
+  {id:2,time:'10:45',name:'Waterfront Boardwalk',emoji:'🌊',desc:'10 min challenge: find the coolest thing.',detail:'Everyone gets 10 minutes to find the coolest waterfront thing. Winner gets first ice cream pick later.',nav:'https://maps.google.com/?q=Halifax+Waterfront+Boardwalk',essential:true},
+  {id:3,time:'10:55',name:'HMCS Sackville',emoji:'⚓',desc:'WWII Corvette. Walk around, photos, move.',detail:"Canada's last surviving WWII Corvette. Do not turn this into a museum stop. Walk around, photos, move.",nav:'https://maps.google.com/?q=HMCS+Sackville'},
+  {id:4,time:'11:10',name:'Pier 21',emoji:'🏛️',desc:"Canada's Ellis Island. 5 min context stop.",detail:"Five-minute context stop. Worth seeing, not worth swallowing the day.",nav:'https://maps.google.com/?q=Pier+21+Halifax'},
+  {id:5,time:'11:30',name:'Point Pleasant Park',emoji:'🌲',desc:'MAIN EVENT. Explore everything.',detail:'Do not just ride one road. Explore paved routes, overlooks, old forts, cannons, big trees, and shoreline views. Challenge: coolest hidden spot wins one vote from everyone.',nav:'https://maps.google.com/?q=Point+Pleasant+Park+Halifax',isMain:true,essential:true},
+  {id:6,time:'11:50',name:'Cambridge Battery',emoji:'🏰',desc:'Inside Point Pleasant. Most tourists miss it.',detail:'Good target for the hidden-spot challenge.',nav:'https://maps.google.com/?q=Cambridge+Battery+Point+Pleasant+Park',sub:true},
+  {id:7,time:'12:15',name:'Prince of Wales Tower',emoji:'🗼',desc:'Oldest Martello tower. 5 min, photos.',detail:'One of the oldest Martello towers in North America. Five minutes. Photos. Move.',nav:'https://maps.google.com/?q=Prince+of+Wales+Tower+Halifax',sub:true},
+  {id:8,time:'1:15',name:'Public Gardens',emoji:'🌺',desc:'Lock bikes outside. Quick walk, biggest tree challenge.',detail:'Bikes are not allowed inside. Lock up, quick walk, biggest-tree challenge, leave before it eats the afternoon.',nav:'https://maps.google.com/?q=Halifax+Public+Gardens'},
+  {id:9,time:'1:45',name:'Halifax Citadel',emoji:'🏔️',desc:'Ride up, enjoy the view, roll back down.',detail:'Skip the paid tour unless everyone suddenly becomes a military history nerd. Ride up, enjoy the view, photos, roll back down.',nav:'https://maps.google.com/?q=Halifax+Citadel'},
+  {id:10,time:'2:15',name:'Freak Lunchbox',emoji:'🍭',desc:'Ridiculous candy, weird sodas, novelty snacks.',detail:'Expect this to beat the Citadel by a mile.',nav:'https://maps.google.com/?q=Freak+Lunchbox+Halifax',essential:true},
+  {id:11,time:'2:25',name:'COWS Ice Cream',emoji:'🍦',desc:'Mandatory. No duplicate flavors.',detail:'Winner of the waterfront challenge gets first pick.',nav:'https://maps.google.com/?q=COWS+Halifax',essential:true},
+  {id:12,time:'2:40',name:'Return Bikes',emoji:'🏁',desc:'Head back. Be at tender area by 3:15.',detail:'Leave yourselves enough time to get back to the tender area by about 3:15 PM.',nav:'https://maps.google.com/?q=I+Heart+Bikes+Halifax',essential:true}
+];
+
+const BONUS = [
+  {name:'Nova Scotia Power Wave',nav:'https://maps.google.com/?q=Nova+Scotia+Power+Wave'},
+  {name:"Queen's Marque",nav:'https://maps.google.com/?q=Queen%27s+Marque+Halifax'},
+  {name:'Maritime Museum (Exterior)',nav:'https://maps.google.com/?q=Maritime+Museum+of+the+Atlantic'}
+];
+
+const SIGHTINGS = [
+  {id:0,emoji:'🦭',name:'Seal',pts:5},
+  {id:1,emoji:'🦅',name:'Bald Eagle',pts:10},
+  {id:2,emoji:'⚓',name:'Biggest Anchor',pts:5},
+  {id:3,emoji:'🚢',name:'Navy Ship',pts:5},
+  {id:4,emoji:'🎵',name:'Bagpiper',pts:5},
+  {id:5,emoji:'🦆',name:'Duck with Babies',pts:10},
+  {id:6,emoji:'🛳️',name:'Another Cruise Ship',pts:3},
+  {id:7,emoji:'🦞',name:'Lobster on a Menu',pts:1},
+  {id:8,emoji:'🇨🇦',name:'Huge Canadian Flag',pts:2}
+];
+
+const MORNING_CHECKS = [
+  {id:'m0',text:'Ask: "Any trail closures today?"'},
+  {id:'m1',text:'Ask: "One spot to add for active teenagers?"'},
+  {id:'m2',text:'Confirm return deadline and bike lock rules'},
+  {id:'m3',text:'Check phone batteries'}
+];
+
+const GEAR_CHECKS = [
+  {id:'g0',text:'Water bottles filled'},
+  {id:'g1',text:'Sunscreen applied'},
+  {id:'g2',text:'Light layer packed (Halifax fog)'}
+];
+
+const PLAYER_COLORS = ['#3b82f6','#ef4444','#22c55e','#f97316','#8b5cf6','#ec4899','#14b8a6','#f59e0b'];
+
+// ── STATE ──
+let state = loadState();
+function loadState(){
+  try{return JSON.parse(localStorage.getItem('halifax_ride'))||defaultState();}catch(e){return defaultState();}
+}
+function defaultState(){return {done:[],players:[],claims:{},checks:[],routeMode:'full'};}
+function save(){localStorage.setItem('halifax_ride',JSON.stringify(state));}
+
+// ── COUNTDOWN ──
+// Ride day: July 8, 2026. Times in ADT (UTC-3).
+const RIDE_START = new Date('2026-07-08T10:30:00-03:00').getTime();
+const RETURN_TIME = new Date('2026-07-08T14:40:00-03:00').getTime();
+const RIDE_END = new Date('2026-07-08T15:15:00-03:00').getTime();
+
+function updateCountdown(){
+  const now = Date.now();
+  const cd = document.getElementById('countdown');
+  const timeEl = document.getElementById('cd-time');
+  const labelEl = document.getElementById('cd-label');
+  cd.className = 'cd';
+
+  if(now < RIDE_START){
+    const d = RIDE_START - now;
+    timeEl.textContent = fmtDuration(d);
+    labelEl.textContent = 'until ride starts';
+  } else if(now < RETURN_TIME){
+    const d = RETURN_TIME - now;
+    const mins = d / 60000;
+    timeEl.textContent = fmtDuration(d);
+    labelEl.textContent = 'until 2:40 PM return';
+    if(mins <= 15) cd.classList.add('urgent');
+    else if(mins <= 45) cd.classList.add('warn');
+  } else if(now < RIDE_END){
+    timeEl.textContent = 'HEAD BACK';
+    labelEl.textContent = 'Return deadline passed!';
+    cd.classList.add('urgent');
+    document.getElementById('header').style.background = 'linear-gradient(135deg,#7f1d1d,#991b1b)';
+  } else {
+    timeEl.textContent = 'RIDE COMPLETE';
+    labelEl.textContent = 'Great day! 🎉';
+    document.getElementById('header').style.background = 'linear-gradient(135deg,#14532d,#166534)';
+  }
+}
+
+function fmtDuration(ms){
+  const s = Math.floor(ms/1000);
+  const h = Math.floor(s/3600);
+  const m = Math.floor((s%3600)/60);
+  const sec = s%60;
+  if(h > 0) return h+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+  return m+':'+String(sec).padStart(2,'0');
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ── TABS ──
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.nav-t').forEach(t=>t.classList.remove('on'));
+  document.getElementById('tab-'+name).classList.add('on');
+  document.querySelectorAll('.nav-t')[['route','score','check'].indexOf(name)].classList.add('on');
+  window.scrollTo(0,0);
+}
+
+// ── ROUTE ──
+function setRouteMode(mode){
+  state.routeMode = mode;
+  save();
+  document.querySelectorAll('.rt-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.rt-btn')[mode==='full'?0:1].classList.add('on');
+  renderRoute();
+}
+
+function renderRoute(){
+  const list = document.getElementById('route-list');
+  const stops = state.routeMode === 'quick' ? STOPS.filter(s=>s.essential) : STOPS;
+  let html = '';
+  stops.forEach(s => {
+    const done = state.done.includes(s.id);
+    const cls = ['rc'];
+    if(done) cls.push('done');
+    if(s.isMain) cls.push('main');
+    html += `<div class="${cls.join(' ')}" id="stop-${s.id}">
+      <div class="rc-h" onclick="toggleExpand(${s.id})">
+        <span class="rc-em">${s.emoji}</span>
+        <div class="rc-body">
+          <div class="rc-time">${done ? '✓ ' : ''}${s.time}</div>
+          <div class="rc-name">${s.name}${s.isMain?'<span class="rc-tag">Main Event</span>':''}${s.sub?'<span style="font-size:10px;color:var(--text2);font-weight:400">in Point Pleasant</span>':''}</div>
+          <div class="rc-desc">${s.desc}</div>
+        </div>
+        <a class="rc-go" href="${s.nav}" target="_blank" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+          Go
+        </a>
+      </div>
+      <div class="rc-detail">${s.detail||''}</div>
+      <button class="rc-done" onclick="toggleDone(${s.id})">${done?'✓ Visited':'Mark as visited'}</button>
+    </div>`;
+  });
+  list.innerHTML = html;
+  updateBanner();
+}
+
+function toggleExpand(id){
+  const el = document.getElementById('stop-'+id);
+  el.classList.toggle('exp');
+}
+
+function toggleDone(id){
+  if(state.done.includes(id)) state.done = state.done.filter(x=>x!==id);
+  else state.done.push(id);
+  save();
+  renderRoute();
+}
+
+function updateBanner(){
+  const banner = document.getElementById('route-banner');
+  const total = state.routeMode === 'quick' ? STOPS.filter(s=>s.essential).length : STOPS.length;
+  const visited = state.done.length;
+  if(visited === 0){banner.innerHTML='';return;}
+  const pct = Math.round((visited/total)*100);
+  banner.innerHTML = `<div class="banner info">🚴 ${visited}/${total} stops visited (${pct}%)</div>`;
+}
+
+// ── BONUS ──
+function renderBonus(){
+  const list = document.getElementById('bonus-list');
+  list.innerHTML = BONUS.map(b=>`<div class="bonus-item"><span style="font-size:13px;font-weight:600">${b.name}</span><a href="${b.nav}" target="_blank">Navigate</a></div>`).join('');
+}
+
+// ── SCORECARD ──
+function addPlayer(){
+  const input = document.getElementById('player-input');
+  const name = input.value.trim();
+  if(!name || state.players.length >= 8) return;
+  if(state.players.includes(name)){input.value='';return;}
+  state.players.push(name);
+  state.claims[name] = [];
+  save();
+  input.value = '';
+  renderScore();
+}
+
+document.getElementById('player-input').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){e.preventDefault();addPlayer();}
+});
+
+function removePlayer(name){
+  if(!confirm('Remove '+name+'?')) return;
+  state.players = state.players.filter(p=>p!==name);
+  delete state.claims[name];
+  save();
+  renderScore();
+}
+
+function toggleClaim(player, sightingId){
+  if(!state.claims[player]) state.claims[player] = [];
+  const idx = state.claims[player].indexOf(sightingId);
+  if(idx >= 0) state.claims[player].splice(idx,1);
+  else state.claims[player].push(sightingId);
+  save();
+  renderScore();
+}
+
+function getScore(player){
+  const claims = state.claims[player] || [];
+  return 10 + claims.reduce((sum, sid) => {
+    const s = SIGHTINGS.find(x=>x.id===sid);
+    return sum + (s ? s.pts : 0);
+  }, 0);
+}
+
+function renderScore(){
+  // Leaderboard
+  const lb = document.getElementById('leaderboard');
+  if(state.players.length === 0){
+    lb.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text2);font-size:13px;width:100%">Add players above to start tracking scores</div>';
+  } else {
+    const sorted = [...state.players].sort((a,b)=>getScore(b)-getScore(a));
+    const topScore = getScore(sorted[0]);
+    lb.innerHTML = state.players.map((p,i)=>{
+      const score = getScore(p);
+      const isLead = score === topScore && state.players.length > 1;
+      return `<div class="lb-card${isLead?' lead':''}">
+        ${isLead?'<span class="lb-crown">👑</span>':''}
+        <div class="lb-avatar" style="background:${PLAYER_COLORS[i%PLAYER_COLORS.length]}">${p[0].toUpperCase()}</div>
+        <div class="lb-name">${p}</div>
+        <div class="lb-score">${score}</div>
+        <button class="lb-rm" onclick="removePlayer('${p.replace(/'/g,"\\'")}')">remove</button>
+      </div>`;
+    }).join('');
+  }
+
+  // Sightings
+  const list = document.getElementById('sightings-list');
+  list.innerHTML = SIGHTINGS.map(s=>{
+    let players = '';
+    if(state.players.length === 0){
+      players = `<div class="sg-empty">Add players to start claiming sightings</div>`;
+    } else {
+      players = `<div class="sg-players">${state.players.map((p,i)=>{
+        const claimed = (state.claims[p]||[]).includes(s.id);
+        return `<button class="sg-pbtn${claimed?' claimed':''}" style="${claimed?'':`color:${PLAYER_COLORS[i%PLAYER_COLORS.length]};border-color:${PLAYER_COLORS[i%PLAYER_COLORS.length]}`}" onclick="toggleClaim('${p.replace(/'/g,"\\'")}',${s.id})" title="${p}">${p[0].toUpperCase()}</button>`;
+      }).join('')}</div>`;
+    }
+    return `<div class="sg">
+      <div class="sg-h">
+        <span class="sg-em">${s.emoji}</span>
+        <div class="sg-info">
+          <div class="sg-name">${s.name}</div>
+          <div class="sg-pts">+${s.pts} points</div>
+        </div>
+      </div>
+      ${players}
+    </div>`;
+  }).join('');
+}
+
+// ── CHECKLIST ──
+function renderChecks(){
+  renderCheckGroup('checklist-morning', MORNING_CHECKS);
+  renderCheckGroup('checklist-gear', GEAR_CHECKS);
+}
+
+function renderCheckGroup(containerId, items){
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map(c=>{
+    const checked = state.checks.includes(c.id);
+    return `<div class="ck-item${checked?' checked':''}" onclick="toggleCheck('${c.id}')">
+      <div class="ck-box">${checked?'✓':''}</div>
+      <div class="ck-text">${c.text}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCheck(id){
+  if(state.checks.includes(id)) state.checks = state.checks.filter(x=>x!==id);
+  else state.checks.push(id);
+  save();
+  renderChecks();
+}
+
+// ── INIT ──
+renderRoute();
+renderBonus();
+renderScore();
+renderChecks();
+</script>
+</body>
+</html>
