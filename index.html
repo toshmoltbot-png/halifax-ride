@@ -76,8 +76,16 @@ a{color:inherit;text-decoration:none}
 .rc-go{flex-shrink:0;display:flex;align-items:center;gap:3px;padding:8px 14px;border-radius:10px;background:var(--blue);color:#fff;font-size:12px;font-weight:800;white-space:nowrap;min-height:40px;text-decoration:none}
 .rc-go:active{transform:scale(.95)}
 .rc-go svg{width:14px;height:14px;fill:currentColor}
-.rc-detail{padding:0 12px 10px 50px;font-size:12px;color:var(--text2);line-height:1.5;display:none}
+.rc-detail{padding:0 14px 12px;font-size:13px;color:var(--text2);line-height:1.5;display:none}
 .rc.exp .rc-detail{display:block}
+.rc-detail ul{margin:6px 0 6px 16px;list-style:disc}
+.rc-detail li{margin-bottom:5px}
+.rc-detail strong{color:var(--text)}
+.rc-tip{background:#eff6ff;padding:8px 10px;border-radius:8px;margin:8px 0 4px;font-size:11px;color:#1d4ed8;line-height:1.4}
+.rc-tip.warn{background:#fff7ed;color:#c2410c}
+.rc-more{font-size:10px;color:var(--blue);font-weight:600;margin-top:4px;display:flex;align-items:center;gap:3px}
+.rc.exp .rc-more .chv{transform:rotate(180deg)}
+.chv{transition:transform .2s;display:inline-block;font-size:12px}
 .rc-done{display:block;width:100%;padding:9px;border:none;background:#f8fafc;color:var(--text2);font-size:12px;font-weight:700;border-top:1px solid var(--border)}
 .rc-done:active{background:#f1f5f9}
 .rc.done .rc-done{background:#f0fdf4;color:var(--green)}
@@ -265,6 +273,111 @@ const STOPS = [
   {id:12,time:'2:45',name:'Head to Terminal',emoji:'🏁',desc:'Walk or Uber back. Ship deadline 3:30 PM.',detail:'Walk if close, Uber if needed. Hard ship deadline is 3:30 PM. Do not be late.',nav:'https://maps.google.com/?q=Halifax+Cruise+Terminal',essential:true}
 ];
 
+const DETAILS = {
+1:`<strong>⏱ 30-45 min</strong> · Free
+<ul>
+<li>The boardwalk runs along the harbour from the ferry terminal south. Public art, colourful buildings, and tons of boat traffic to watch.</li>
+<li><strong>🎯 Challenge:</strong> Everyone gets 10 minutes to find the coolest thing on the waterfront. Winner gets first pick at COWS Ice Cream later.</li>
+<li><strong>👀 Look for:</strong> The Wave sculpture, Theodore Tugboat (if docked), street performers, tall ships at the docks.</li>
+<li><strong>☕ Food/water:</strong> Cafes and water fountains along the boardwalk. Good time to grab coffees.</li>
+<li><strong>🚻 Bathrooms:</strong> Near the ferry terminal and inside the Marriott waterfront lobby.</li>
+</ul>
+<div class="rc-tip">💡 Don't rush. You're killing time before the 10:30 bike shop check-back anyway.</div>`,
+2:`<strong>⏱ 10-15 min</strong> · Free (exterior) · Donation for deck tour
+<ul>
+<li>Canada's last surviving WWII corvette warship. Served as an escort in the Battle of the Atlantic, hunting German U-boats.</li>
+<li>Walk the deck, check out the guns and depth charges. Great photo op with the harbour behind it.</li>
+<li><strong>🧒 For the kids:</strong> 200 crew crammed into a 200-foot ship for months at a time. Depth charges weighed 300 lbs each. Ask them if they could handle it.</li>
+<li>Don't turn this into a museum stop — 10 minutes on deck, photos, move.</li>
+</ul>`,
+3:`<strong>📍 I Heart Bikes</strong> · Lower Water St (waterfront area)
+<ul>
+<li>They told us to check back around 10:30 for bikes or scooters.</li>
+<li><strong>🚲 If available:</strong> Grab them! The rest of the day gets way easier on wheels. Point Pleasant is 2.5 km from downtown.</li>
+<li><strong>🚶 If still sold out:</strong> No stress. Walking + Uber plan works great. Ask if they know any other rental spots nearby or expect returns soon.</li>
+<li><strong>Also ask about:</strong> E-scooter rentals, expected return times, any other rental options in the area.</li>
+</ul>
+<div class="rc-tip">💡 Don't wait around if nothing's available. The day is too short to burn time here.</div>`,
+4:`<strong>⏱ 1-1.5 hours in park</strong> · Free park · Uber ~$8-10 CAD each way
+<ul>
+<li><strong>🚗 Uber there:</strong> Request from the waterfront / Lower Water St. ~5 min ride. Ask for drop-off at Point Pleasant Park main entrance (south end of Young Ave).</li>
+<li>75 hectares of coastal forest, military ruins, and ocean views. This is the single best thing in Halifax.</li>
+<li><strong>🦶 Best walk:</strong> Shore Road loop along the water. You'll see massive container ships passing RIGHT by the point, plus views across the Northwest Arm.</li>
+<li><strong>🎯 Challenge:</strong> Coolest hidden spot wins a vote from everyone. Spread out and explore different trails.</li>
+<li><strong>🦭 Wildlife:</strong> Seals in the harbour, bald eagles, great blue herons, ducks with babies — all worth sighting points!</li>
+<li><strong>⚠️ Trails:</strong> Stick to paved/gravel main paths. Interior trails are well-marked but can be muddy. Don't go off-trail.</li>
+<li><strong>🚻 Bathrooms:</strong> Near the main parking lot at the park entrance.</li>
+</ul>
+<div class="rc-tip">💡 Uber pickup when done: exit via Tower Rd or Young Ave. Don't try to get a car from deep inside the park.</div>`,
+5:`<strong>⏱ 15-20 min</strong> · Free · Inside Point Pleasant Park
+<ul>
+<li>Hidden WWII-era gun battery built right into the hillside. Most tourists walk past without noticing it.</li>
+<li>Explore the old concrete bunkers, gun emplacements, and observation posts. Great for photos and exploring.</li>
+<li><strong>🧒 For the kids:</strong> These guns could hit ships over 10 km out in the harbour entrance. The concrete walls are 3+ feet thick.</li>
+<li>Strong candidate for the hidden-spot challenge. The bunker interiors have a real abandoned-fortress vibe.</li>
+</ul>`,
+6:`<strong>⏱ 10 min</strong> · Free (exterior) · Inside Point Pleasant Park
+<ul>
+<li>Built in 1796 — one of the oldest Martello towers in North America. Round stone fortification built to defend the harbour.</li>
+<li>The exterior and harbour views are the draw. Interior tours sometimes available in summer (Parks Canada).</li>
+<li><strong>🤓 Fun fact:</strong> The British copied this design from a tower in Corsica that gave them serious trouble. Liked it so much they built 200+ of them worldwide.</li>
+<li>Quick photo stop. Five minutes, then head toward the park exit.</li>
+</ul>`,
+7:`<strong>⏱ 30 min</strong> · Free · Uber ~$8-10 CAD from Point Pleasant
+<ul>
+<li><strong>🚗 Getting there:</strong> Exit Point Pleasant via Tower Rd or Young Ave. Uber to Spring Garden Rd entrance (~5 min ride).</li>
+<li>16-acre Victorian garden dating to 1867. Fountains, flower beds, duck ponds, and an ornate bandstand.</li>
+<li><strong>🎯 Challenge:</strong> Find the biggest tree. Some are 150+ years old and absolutely massive.</li>
+<li><strong>🚶 Walking advantage:</strong> No bikes to lock up — just walk right in through any gate.</li>
+<li><strong>👀 Look for:</strong> Griffin's Pond fountain, the weeping willows, the Victorian bandstand, tropical flower beds.</li>
+<li><strong>🚻 Bathrooms:</strong> Small restroom building near the Horticultural Hall inside the gardens.</li>
+</ul>
+<div class="rc-tip">💡 Don't let this eat the afternoon. It's gorgeous but 30 min is enough. The Citadel is right up the hill.</div>`,
+8:`<strong>⏱ 30-45 min</strong> · Free (grounds/views) · $12 adult for interior (optional)
+<ul>
+<li>Star-shaped hilltop fortress overlooking the entire city and harbour. About a 10 min uphill walk from the Public Gardens.</li>
+<li><strong>🏔️ The climb:</strong> It's a real hill. Take it slow. The payoff is a 360° panorama — Halifax, Dartmouth, the harbour, Georges Island.</li>
+<li><strong>💰 Skip the paid tour</strong> unless everyone suddenly becomes military history fans. Views and exterior grounds are completely free.</li>
+<li><strong>⚡ Energy check:</strong> If legs are done from Point Pleasant, skip this entirely. The view is great but not worth misery.</li>
+<li><strong>🧒 For the kids:</strong> Soldiers in period uniforms do musket and cannon demos. The noon cannon fires daily at exactly 12:00 — loud and impressive.</li>
+<li><strong>⬇️ Coming down:</strong> Easy downhill walk toward the waterfront. Pier 21 is on the way, then downtown for candy and ice cream.</li>
+</ul>
+<div class="rc-tip">💡 If you arrive before noon, you might catch the daily cannon blast. Free and startlingly loud.</div>`,
+9:`<strong>⏱ 10-15 min</strong> · Free (lobby/exterior) · $12 adult for full museum
+<ul>
+<li>Canada's Ellis Island. Between 1928 and 1971, over one million immigrants entered Canada through this very building.</li>
+<li>The lobby has a few free historical displays. The full museum is a bigger time investment than you probably want today.</li>
+<li><strong>📜 Worth knowing:</strong> Over 500,000 military personnel also shipped out from here during WWII. Same dock, opposite direction.</li>
+<li>Five-minute context stop. Appreciate the history, then keep walking along the waterfront toward downtown.</li>
+</ul>`,
+10:`<strong>⏱ 20-30 min</strong> · $ (set a candy budget first!)
+<ul>
+<li>Legendary Halifax candy store. Floor-to-ceiling walls of every candy, chocolate, weird soda, and novelty snack you can imagine.</li>
+<li><strong>📍 Location:</strong> 1723 Barrington St — right in downtown Halifax, easy walk from the waterfront.</li>
+<li><strong>🍬 Highlights:</strong> Massive gummy bears, Japanese candy section, retro 80s/90s candy, novelty sodas (bacon-flavoured, etc.), wax bottles, candy cigarettes, pop rocks by the pound.</li>
+<li><strong>💰 Budget tip:</strong> Set a per-person limit before walking in or this gets expensive fast. $10-15 CAD each buys a solid haul.</li>
+<li>Expect this to be the kids' favourite stop of the entire day. By a mile.</li>
+</ul>
+<div class="rc-tip">💡 Bags of candy + walking = heavy pockets. This is near the end of the day for a reason.</div>`,
+11:`<strong>⏱ 15-20 min</strong> · $$ (~$7-9 CAD per cone)
+<ul>
+<li>Famous PEI ice cream chain. Widely considered the best ice cream in Atlantic Canada. Rich, creamy, massive portions.</li>
+<li><strong>📍 Location:</strong> On the waterfront near the Historic Properties buildings.</li>
+<li><strong>🏆 Rule:</strong> No duplicate flavours in the group. Everyone picks something different.</li>
+<li><strong>🥇 Challenge winner:</strong> Whoever won the waterfront coolest-find challenge gets first pick of flavour.</li>
+<li><strong>⭐ Fan favourites:</strong> Gooey Mooey (caramel + chocolate), Wowie Cowie (toffee + chocolate chunks), Cotton Candy, plus seasonal specials.</li>
+<li><strong>👕 Souvenir option:</strong> They're famous for punny cow T-shirts. Good grab if anyone wants a Halifax keepsake.</li>
+</ul>`,
+12:`<strong>⚠️ Allow 30-45 min buffer</strong> · Ship deadline 3:30 PM — HARD
+<ul>
+<li><strong>📍 From downtown/waterfront:</strong> Cruise terminal is a 10-15 min walk along the waterfront, or 5 min Uber.</li>
+<li><strong>🚢 Tender check:</strong> If the ship is at anchor (not docked), allow extra time. Tender lines can add 15-20 min on top of the walk.</li>
+<li><strong>🚗 Running late?</strong> Uber immediately. Do not try to speed-walk. The ship will not wait for anyone.</li>
+<li><strong>✅ Exit checklist:</strong> Phones? Wallets? Candy bags? Souvenirs? Water bottles? Everyone accounted for?</li>
+</ul>
+<div class="rc-tip warn">⚠️ If it's 2:45 and you're not already heading to the terminal, drop everything and go. Now.</div>`
+};
+
 const BONUS = [
   {name:'Nova Scotia Power Wave',nav:'https://maps.google.com/?q=Nova+Scotia+Power+Wave'},
   {name:"Queen's Marque",nav:'https://maps.google.com/?q=Queen%27s+Marque+Halifax'},
@@ -392,13 +505,14 @@ function renderRoute(){
           <div class="rc-time">${done ? '✓ ' : ''}${s.time}</div>
           <div class="rc-name">${s.name}${s.isMain?'<span class="rc-tag">Main Event</span>':''}${s.sub?'<span style="font-size:10px;color:var(--text2);font-weight:400">in Point Pleasant</span>':''}</div>
           <div class="rc-desc">${s.desc}</div>
+          <div class="rc-more"><span class="chv">▾</span> Details</div>
         </div>
         <a class="rc-go" href="${s.nav}" target="_blank" onclick="event.stopPropagation()">
           <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
           Go
         </a>
       </div>
-      <div class="rc-detail">${s.detail||''}</div>
+      <div class="rc-detail">${DETAILS[s.id]||s.detail||''}</div>
       <button class="rc-done" onclick="toggleDone(${s.id})">${done?'✓ Visited':'Mark as visited'}</button>
     </div>`;
   });
