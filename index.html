@@ -300,7 +300,7 @@ let state = loadState();
 function loadState(){
   try{return JSON.parse(localStorage.getItem('halifax_ride'))||defaultState();}catch(e){return defaultState();}
 }
-function defaultState(){return {done:[],players:[],claims:{},checks:[],routeMode:'full'};}
+function defaultState(){return {done:[],players:['Rich','Michele','Richie','Rogan','Ryann'],claims:{'Rich':[],'Michele':[],'Richie':[],'Rogan':[],'Ryann':[]},checks:[],routeMode:'full'};}
 function save(){localStorage.setItem('halifax_ride',JSON.stringify(state));}
 
 // ── COUNTDOWN ──
