@@ -541,6 +541,21 @@ function toggleCheck(id){
   renderChecks();
 }
 
+// ── RESET ──
+function resetAll(){
+  if(!confirm('Reset all progress, scores, and checklist?')) return;
+  localStorage.removeItem('halifax_ride');
+  state = defaultState();
+  renderRoute();renderScore();renderChecks();
+}
+
+// URL param ?reset=1 auto-resets
+if(new URLSearchParams(location.search).has('reset')){
+  localStorage.removeItem('halifax_ride');
+  state = defaultState();
+  history.replaceState(null,'',location.pathname);
+}
+
 // ── INIT ──
 renderRoute();
 renderBonus();
