@@ -187,7 +187,7 @@ a{color:inherit;text-decoration:none}
       <button class="rt-btn on" onclick="setRouteMode('full')">🗺️ Full Day</button>
       <button class="rt-btn" onclick="setRouteMode('quick')">⚡ Highlights</button>
     </div>
-    <div class="banner warn" style="margin:8px 12px 2px">🚲 Bikes sold out — checking back ~10:30. Walking + Uber plan active.</div>
+    <div class="banner warn" style="margin:8px 12px 2px">⏱ Afternoon schedule adjusted for current time. Walking + Uber. Terminal by 2:30 PM.</div>
     <div id="route-banner"></div>
     <div id="route-list"></div>
     <div class="bonus" id="bonus-section">
@@ -227,7 +227,7 @@ a{color:inherit;text-decoration:none}
     <div class="notes">
       <h3>📋 Rules & Notes</h3>
       <ul>
-        <li><strong>Hard return:</strong> Head to terminal by 2:45 PM. Ship deadline 3:30 PM. No debate.</li>
+        <li><strong>Hard return:</strong> Head to terminal by 2:30 PM. Ship deadline 3:30 PM. No debate.</li>
         <li><strong>Transport:</strong> Walking + Uber today. Checking back at bike shop ~10:30.</li>
         <li><strong>Uber tip:</strong> Request pickups at park exits, not deep inside parks.</li>
         <li><strong>Point Pleasant Park:</strong> Stick to main paths. Be respectful around walkers.</li>
@@ -265,12 +265,12 @@ const STOPS = [
   {id:4,time:'10:45',name:'Uber \u2192 Point Pleasant',emoji:'🚗',desc:'MAIN EVENT. 5 min Uber. Explore on foot.',detail:'Too far to walk comfortably. Uber there (~5 min, ~$8-10 CAD). Explore trails, overlooks, old forts, cannons, shoreline views. Challenge: coolest hidden spot wins a vote from everyone.',nav:'https://maps.google.com/?q=Point+Pleasant+Park+Halifax',isMain:true,essential:true},
   {id:5,time:'11:00',name:'Cambridge Battery',emoji:'🏰',desc:'Inside Point Pleasant. Most tourists miss it.',detail:'Good target for the hidden-spot challenge. Short walk from park entrance.',nav:'https://maps.google.com/?q=Cambridge+Battery+Point+Pleasant+Park',sub:true},
   {id:6,time:'11:20',name:'Prince of Wales Tower',emoji:'🗼',desc:'Oldest Martello tower. 5 min, photos.',detail:'One of the oldest Martello towers in North America. Five minutes. Photos. Move.',nav:'https://maps.google.com/?q=Prince+of+Wales+Tower+Halifax',sub:true},
-  {id:7,time:'11:45',name:'Uber \u2192 Public Gardens',emoji:'🚗',desc:'Uber back downtown. Walk the gardens.',detail:'Uber from Point Pleasant back to downtown (~5 min). No bikes to worry about, just walk right in. Biggest-tree challenge.',nav:'https://maps.google.com/?q=Halifax+Public+Gardens',essential:true},
-  {id:8,time:'12:15',name:'Halifax Citadel',emoji:'🏔️',desc:'Walk up the hill. Views are worth it.',detail:'Real climb on foot. Skip if energy is low. The view from the top is the payoff.',nav:'https://maps.google.com/?q=Halifax+Citadel'},
-  {id:9,time:'12:45',name:'Pier 21',emoji:'🏛️',desc:"Canada's Ellis Island. 5 min context stop.",detail:"Walk back down from Citadel toward the waterfront. Five-minute context stop.",nav:'https://maps.google.com/?q=Pier+21+Halifax'},
-  {id:10,time:'1:15',name:'Freak Lunchbox',emoji:'🍭',desc:'Ridiculous candy, weird sodas, novelty snacks.',detail:'Expect this to beat the Citadel by a mile. Downtown, easy walk.',nav:'https://maps.google.com/?q=Freak+Lunchbox+Halifax',essential:true},
-  {id:11,time:'1:45',name:'COWS Ice Cream',emoji:'🍦',desc:'Mandatory. No duplicate flavors.',detail:'Winner of the waterfront challenge gets first pick.',nav:'https://maps.google.com/?q=COWS+Halifax',essential:true},
-  {id:12,time:'2:45',name:'Head to Terminal',emoji:'🏁',desc:'Walk or Uber back. Ship deadline 3:30 PM.',detail:'Walk if close, Uber if needed. Hard ship deadline is 3:30 PM. Do not be late.',nav:'https://maps.google.com/?q=Halifax+Cruise+Terminal',essential:true}
+  {id:7,time:'12:15',name:'Uber \u2192 Public Gardens',emoji:'🚗',desc:'Uber back downtown. Walk the gardens.',detail:'Uber from Point Pleasant back to downtown (~5 min). No bikes to worry about, just walk right in. Biggest-tree challenge.',nav:'https://maps.google.com/?q=Halifax+Public+Gardens',essential:true},
+  {id:8,time:'12:50',name:'Halifax Citadel',emoji:'🏔️',desc:'Walk up the hill. Views are worth it.',detail:'Real climb on foot. Skip if energy is low. The view from the top is the payoff.',nav:'https://maps.google.com/?q=Halifax+Citadel'},
+  {id:9,time:'1:20',name:'Pier 21',emoji:'🏛️',desc:"Canada's Ellis Island. 5 min context stop.",detail:"Walk back down from Citadel toward the waterfront. Five-minute context stop.",nav:'https://maps.google.com/?q=Pier+21+Halifax'},
+  {id:10,time:'1:35',name:'Freak Lunchbox',emoji:'🍭',desc:'Ridiculous candy, weird sodas, novelty snacks.',detail:'Expect this to beat the Citadel by a mile. Downtown, easy walk.',nav:'https://maps.google.com/?q=Freak+Lunchbox+Halifax',essential:true},
+  {id:11,time:'2:00',name:'COWS Ice Cream',emoji:'🍦',desc:'Mandatory. No duplicate flavors.',detail:'Winner of the waterfront challenge gets first pick.',nav:'https://maps.google.com/?q=COWS+Halifax',essential:true},
+  {id:12,time:'2:30',name:'Head to Terminal',emoji:'🏁',desc:'Walk or Uber back. Ship deadline 3:30 PM.',detail:'Walk if close, Uber if needed. Hard ship deadline is 3:30 PM. Do not be late.',nav:'https://maps.google.com/?q=Halifax+Cruise+Terminal',essential:true}
 ];
 
 const DETAILS = {
@@ -375,7 +375,7 @@ const DETAILS = {
 <li><strong>🚗 Running late?</strong> Uber immediately. Do not try to speed-walk. The ship will not wait for anyone.</li>
 <li><strong>✅ Exit checklist:</strong> Phones? Wallets? Candy bags? Souvenirs? Water bottles? Everyone accounted for?</li>
 </ul>
-<div class="rc-tip warn">⚠️ If it's 2:45 and you're not already heading to the terminal, drop everything and go. Now.</div>`
+<div class="rc-tip warn">⚠️ If it's 2:30 and you're not already heading to the terminal, drop everything and go. Now.</div>`
 };
 
 const BONUS = [
@@ -423,7 +423,7 @@ function save(){localStorage.setItem('halifax_ride',JSON.stringify(state));}
 // ── COUNTDOWN ──
 // Ride day: July 8, 2026. Times in ADT (UTC-3).
 const RIDE_START = new Date('2026-07-07T09:30:00-03:00').getTime();
-const RETURN_TIME = new Date('2026-07-07T14:45:00-03:00').getTime(); // 2:45 PM ADT — start heading back
+const RETURN_TIME = new Date('2026-07-07T14:30:00-03:00').getTime(); // 2:30 PM ADT — start heading back
 const SHIP_DEADLINE = new Date('2026-07-07T15:30:00-03:00').getTime(); // 3:30 PM ADT — hard ship deadline
 const RIDE_END = SHIP_DEADLINE;
 
@@ -442,7 +442,7 @@ function updateCountdown(){
     const d = RETURN_TIME - now;
     const mins = d / 60000;
     timeEl.textContent = fmtDuration(d);
-    labelEl.textContent = 'until 2:45 PM — start heading back';
+    labelEl.textContent = 'until 2:30 PM — start heading back';
     if(mins <= 15) cd.classList.add('urgent');
     else if(mins <= 30) cd.classList.add('warn');
   } else if(now < SHIP_DEADLINE){
